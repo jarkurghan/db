@@ -1,14 +1,14 @@
 {
-  "name": "idp-api",
+  "name": "db-cloner",
   "version": "2.0.0",
-  "description": "TTS jamoasining ish portali",
+  "description": "ma'lumotlar bazasini klonlash va qayta kiritish uchun",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "TTS",
+  "author": "Najmiddin Nazirov",
   "license": "ISC",
   "type": "module",
   "dependencies": {
