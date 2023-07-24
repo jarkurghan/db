@@ -6,9 +6,9 @@ const db = async function (url, ssl = false) {
     connection: {
       connectionString: url,
       ssl: ssl ? false : { rejectUnauthorized: false },
-    }
+    },
   });
   return db;
 };
 
-export default db
+export default db;

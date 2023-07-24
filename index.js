@@ -22,7 +22,7 @@ const options = {
     servers: [
       {
         url: `http://localhost:${9804}/`,
-      }
+      },
     ],
   },
   apis: ["./tools/swagger/*.js"],

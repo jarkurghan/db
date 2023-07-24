@@ -3,24 +3,29 @@ let apis = {};
 
 apis.clone = async (req, res) => {
   try {
-    const redundant = ["files", "file_chunk", "__migrations", "__migrations_lock"]
-    const knex = await db(req.headers["db-url"])
+    const redundant = [
+      "files",
+      "file_chunk",
+      "__migrations",
+      "__migrations_lock",
+    ];
+    const knex = await db(req.headers["db-url"]);
     let tables = await knex("information_schema.tables")
       .where("table_schema", "public")
       .select("table_name");
-    const t2 = []
+    const t2 = [];
     for (let i = 0; i < tables.length; i++)
       if (redundant.indexOf(tables[i].table_name) === -1)
         t2.push(tables[i].table_name);
 
     const result = {};
     for (let i = 0; i < t2.length; i++) {
-      process.stdout.write("\r" + ((i + 1)) + "/" + (t2.length))
+      process.stdout.write("\r" + (i + 1) + "/" + t2.length);
       result[t2[i]] = await knex(t2[i]);
     }
-    process.stdout.write("\r")
+    process.stdout.write("\r");
 
-    res.status(200).json((result));
+    res.status(200).json(result);
   } catch (e) {
     console.log(e);
     res.status(500).json("An error occurred");
@@ -29,11 +34,10 @@ apis.clone = async (req, res) => {
 
 apis.insert = async (req, res) => {
   try {
-    const knex = await db(req.headers["db-url"])
-    // const knex = await db("postgres://postgres:10@127.0.0.1:5432/db-hrp-locale", true)
-    const base = JSON.parse(req.file.buffer.toString())
+    const knex = await db(req.headers["db-url"]);
+    const base = JSON.parse(req.file.buffer.toString());
     const tables = Object.keys(base);
-    const r = [...tables]
+    const r = [...tables];
     for (let i = 0; i < tables.length; i++) {
       console.log("table name:", tables[i]);
       let bl = true;
@@ -81,9 +85,13 @@ apis.insert = async (req, res) => {
                   )
                 ] = item[Math.floor(Math.random() * 1000) % item.length].id;
             } else {
-              if (!e.detail && !e.constraint)
-                console.log(e);
-              console.log("\x1b[33mIgnore\x1b[0m", "\x1b[31m", e.constraint, "\x1b[0m");
+              if (!e.detail && !e.constraint) console.log(e);
+              console.log(
+                "\x1b[33mIgnore\x1b[0m",
+                "\x1b[31m",
+                e.constraint,
+                "\x1b[0m"
+              );
               console.log(e.detail);
               bl = false;
             }
@@ -99,4 +107,4 @@ apis.insert = async (req, res) => {
   }
 };
 
-export default apis
+export default apis;
